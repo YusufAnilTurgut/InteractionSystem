@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Project.Runtime.Core;
 using System.Collections;
+using Project.Runtime.Player;
 
 namespace Project.Runtime.Interactables
 {
@@ -13,11 +14,17 @@ namespace Project.Runtime.Interactables
         [Header("Instant Interaction")]
         [SerializeField] private UnityEvent m_OnInteract;
 
+        [SerializeField] private PlayerInventory m_PlayerInventory;
+
         [SerializeField] private bool m_DisableAfterInteract = false;
 
         [SerializeField] private Transform m_Hinge;
         [SerializeField] private float m_OpenAngle = 90f;
         [SerializeField] private float m_RotateSpeed = 180f;
+
+        [SerializeField] private bool m_IsLockedDoor = false;
+
+        private bool m_IsLocked = false;
 
         private bool m_IsOpen;
         private Quaternion m_ClosedRotation;
@@ -29,6 +36,12 @@ namespace Project.Runtime.Interactables
         #region Methods
         private void Awake()
         {
+            if (m_PlayerInventory == null)
+            {
+                Debug.LogError("PlayerInventory reference is missing.");
+                enabled = false;
+                return;
+            }
 
             m_Hinge = transform.parent;
             if (m_Hinge == null)
@@ -50,6 +63,19 @@ namespace Project.Runtime.Interactables
                 return;
             }
             Debug.Log($"{name}: Instant interaction performed.");
+
+            if (m_IsLockedDoor == true && !m_PlayerInventory.HasKey) 
+            {
+                Debug.Log($"{name}: The door is locked. Cannot interact.");
+                return;
+            }
+            if (m_IsLockedDoor == true && m_PlayerInventory.HasKey) 
+            {
+                Debug.Log($"{name}: The door is unlocked using the key.");
+                m_IsLocked = false;
+                m_PlayerInventory.ClearKey();
+            }
+            
             m_OnInteract.Invoke();
 
             if (m_DisableAfterInteract)
