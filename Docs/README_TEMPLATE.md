@@ -1,15 +1,14 @@
-# Interaction System - [Adınız Soyadınız]
-
+# Interaction System - Yusuf Anıl Turgut
 > Ludu Arts Unity Developer Intern Case
 
 ## Proje Bilgileri
 
 | Bilgi | Değer |
 |-------|-------|
-| Unity Versiyonu | 20XX.X.XXf1 |
+| Unity Versiyonu | 6000.3.0f1 |
 | Render Pipeline | Built-in / URP / HDRP |
-| Case Süresi | X saat |
-| Tamamlanma Oranı | %XX |
+| Case Süresi | 12 saat |
+| Tamamlanma Oranı |  |
 
 ---
 
@@ -17,11 +16,11 @@
 
 1. Repository'yi klonlayın:
 ```bash
-git clone https://github.com/[username]/[repo-name].git
+git clone https://github.com/YusufAnilTurgut/InteractionSystem.git
 ```
 
 2. Unity Hub'da projeyi açın
-3. `Assets/[ProjectName]/Scenes/TestScene.unity` sahnesini açın
+3. `Assets/InteractionSystem/Scenes/TestScene.unity` sahnesini açın
 4. Play tuşuna basın
 
 ---
@@ -35,28 +34,27 @@ git clone https://github.com/[username]/[repo-name].git
 | WASD | Hareket |
 | Mouse | Bakış yönü |
 | E | Etkileşim |
-| [Diğer] | [Açıklama] |
+
 
 ### Test Senaryoları
 
 1. **Door Test:**
-   - Kapıya yaklaşın, "Press E to Open" mesajını görün
+   - Kapıya yaklaşın,
    - E'ye basın, kapı açılsın
    - Tekrar basın, kapı kapansın
 
 2. **Key + Locked Door Test:**
-   - Kilitli kapıya yaklaşın, "Locked - Key Required" mesajını görün
+   - Kilitli kapıya yaklaşın,
    - Anahtarı bulun ve toplayın
    - Kilitli kapıya geri dönün, şimdi açılabilir olmalı
 
 3. **Switch Test:**
    - Switch'e yaklaşın ve aktive edin
-   - Bağlı nesnenin (kapı/ışık vb.) tetiklendiğini görün
 
 4. **Chest Test:**
    - Sandığa yaklaşın
    - E'ye basılı tutun, progress bar dolsun
-   - Sandık açılsın ve içindeki item alınsın
+   - Sandık açılsı
 
 ---
 
@@ -204,16 +202,27 @@ Assets/
 │   │   ├── Runtime/
 │   │   │   ├── Core/
 │   │   │   │   ├── IInteractable.cs
-│   │   │   │   └── ...
+│   │   │   │   └── HoldInterctableBase.cs
+│   │   │   │   └── InstantInterctableBase.cs
+│   │   │   │   └── InteractableBase.cs
+│   │   │   │   └── SwitchInterctableBase.cs
 │   │   │   ├── Interactables/
 │   │   │   │   ├── Door.cs
-│   │   │   │   └── ...
+│   │   │   │   └── Chest.cs
+│   │   │   │   └── Key.cs
+│   │   │   │   └── KeyPickup.cs
+│   │   │   │   └── Lever.cs
 │   │   │   ├── Player/
-│   │   │   │   └── ...
+│   │   │   │   └── InteractionDetector.cs
+│   │   │   │   └── PlayerInventory.cs
+│   │   │   │   └── PlayerMovementController.cs
 │   │   │   └── UI/
-│   │   │       └── ...
+│   │   │       └── HoldProgressBarUI.cs
+│   │   │       └── InventoryController
 │   │   └── Editor/
 │   ├── ScriptableObjects/
+│   │   ├── Items/
+│   │   │   └── SO_Key.cs
 │   ├── Prefabs/
 │   ├── Materials/
 │   └── Scenes/
@@ -233,10 +242,10 @@ Assets/
 
 | Bilgi | Değer |
 |-------|-------|
-| Ad Soyad | [Adınız] |
-| E-posta | [email@example.com] |
-| LinkedIn | [profil linki] |
-| GitHub | [github.com/username] |
+| Ad Soyad | Yusuf Anıl Turgut |
+| E-posta | yusufanilturgut22@gmail.com |
+| LinkedIn | https://www.linkedin.com/in/yusuf-an%C4%B1l-turgut-814737225/ |
+| GitHub | https://github.com/YusufAnilTurgut |
 
 ---
 
