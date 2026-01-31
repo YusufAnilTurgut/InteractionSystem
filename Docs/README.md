@@ -1,6 +1,8 @@
 # Interaction System - Yusuf Anıl Turgut
 > Ludu Arts Unity Developer Intern Case
 
+Zaman eksikliğinden dolayı dokümanlar yeterince ayrıntılı doldurulamamıştır.
+
 ## Proje Bilgileri
 
 | Bilgi | Değer |
@@ -62,28 +64,15 @@ git clone https://github.com/YusufAnilTurgut/InteractionSystem.git
 
 ### Interaction System Yapısı
 
-```
-[Mimari diyagram veya açıklama]
-```
 
 **Neden bu yapıyı seçtim:**
-> [Açıklama]
 
 **Alternatifler:**
-> [Düşündüğünüz diğer yaklaşımlar ve neden seçmediniz]
 
 **Trade-off'lar:**
-> [Bu yaklaşımın avantaj ve dezavantajları]
 
 ### Kullanılan Design Patterns
 
-| Pattern | Kullanım Yeri | Neden |
-|---------|---------------|-------|
-| [Observer] | [Event system] | [Açıklama] |
-| [State] | [Door states] | [Açıklama] |
-| [vb.] | | |
-
----
 
 ## Ludu Arts Standartlarına Uyum
 
@@ -91,11 +80,11 @@ git clone https://github.com/YusufAnilTurgut/InteractionSystem.git
 
 | Kural | Uygulandı | Notlar |
 |-------|-----------|--------|
-| m_ prefix (private fields) | [x] / [ ] | |
-| s_ prefix (private static) | [x] / [ ] | |
-| k_ prefix (private const) | [x] / [ ] | |
-| Region kullanımı | [x] / [ ] | |
-| Region sırası doğru | [x] / [ ] | |
+| m_ prefix (private fields) | [] / [x] | |
+| s_ prefix (private static) | [] / [x] | |
+| k_ prefix (private const) | [] / [x] | |
+| Region kullanımı | [] / [x] | |
+| Region sırası doğru | [x] / [x] | |
 | XML documentation | [x] / [ ] | |
 | Silent bypass yok | [x] / [ ] | |
 | Explicit interface impl. | [x] / [ ] | |
@@ -104,10 +93,10 @@ git clone https://github.com/YusufAnilTurgut/InteractionSystem.git
 
 | Kural | Uygulandı | Örnekler |
 |-------|-----------|----------|
-| P_ prefix (Prefab) | [x] / [ ] | P_Door, P_Chest |
+| P_ prefix (Prefab) | [] / [x] | P_Door, P_Chest |
 | M_ prefix (Material) | [x] / [ ] | M_Door_Wood |
 | T_ prefix (Texture) | [x] / [ ] | |
-| SO isimlendirme | [x] / [ ] | |
+| SO isimlendirme | [] / [x] | |
 
 ### Prefab Kuralları
 
@@ -127,31 +116,31 @@ git clone https://github.com/YusufAnilTurgut/InteractionSystem.git
 
 ### Zorunlu (Must Have)
 
-- [x] / [ ] Core Interaction System
-  - [x] / [ ] IInteractable interface
-  - [x] / [ ] InteractionDetector
-  - [x] / [ ] Range kontrolü
+- [] / [x] Core Interaction System
+  - [] / [x] IInteractable interface
+  - [] / [x] InteractionDetector
+  - [] / [x] Range kontrolü
 
-- [x] / [ ] Interaction Types
-  - [x] / [ ] Instant
-  - [x] / [ ] Hold
-  - [x] / [ ] Toggle
+- [] / [x] Interaction Types
+  - [] / [x] Instant
+  - [] / [x] Hold
+  - [] / [x] Toggle
 
 - [x] / [ ] Interactable Objects
-  - [x] / [ ] Door (locked/unlocked)
+  - [] / [ x] Door (locked/unlocked)
   - [x] / [ ] Key Pickup
-  - [x] / [ ] Switch/Lever
-  - [x] / [ ] Chest/Container
+  - [] / [x] Switch/Lever
+  - [x] / [x] Chest/Container
 
 - [x] / [ ] UI Feedback
-  - [x] / [ ] Interaction prompt
-  - [x] / [ ] Dynamic text
-  - [x] / [ ] Hold progress bar
-  - [x] / [ ] Cannot interact feedback
+  - [] / [ ] Interaction prompt
+  - [] / [ ] Dynamic text
+  - [x] / [x] Hold progress bar
+  - [] / [ ] Cannot interact feedback
 
-- [x] / [ ] Simple Inventory
-  - [x] / [ ] Key toplama
-  - [x] / [ ] UI listesi
+- [] / [x] Simple Inventory
+  - [] / [x] Key toplama
+  - [] / [x] UI listesi
 
 ### Bonus (Nice to Have)
 
@@ -168,30 +157,16 @@ git clone https://github.com/YusufAnilTurgut/InteractionSystem.git
 
 ### Tamamlanamayan Özellikler
 1. [Özellik] - [Neden tamamlanamadı]
-2. [Özellik] - [Neden]
+2. [Key Sistem] - [Zaman yeterli olmadı]
 
 ### Bilinen Bug'lar
-1. [Bug açıklaması] - [Reproduce adımları]
-2. [Bug]
 
 ### İyileştirme Önerileri
-1. [Öneri] - [Nasıl daha iyi olabilirdi]
-2. [Öneri]
 
 ---
 
 ## Ekstra Özellikler
 
-Zorunlu gereksinimlerin dışında eklediklerim:
-
-1. **[Özellik Adı]**
-   - Açıklama: [Ne yapıyor]
-   - Neden ekledim: [Motivasyon]
-
-2. **[Özellik Adı]**
-   - ...
-
----
 
 ## Dosya Yapısı
 
@@ -224,6 +199,20 @@ Assets/
 │   │   ├── Items/
 │   │   │   └── SO_Key.cs
 │   ├── Prefabs/
+│   │   │   └── P_Canvas
+│   │   │   └── P_Chest
+│   │   │   └── P_Directional Light
+│   │   │   └── P_Doors
+│   │   │   └── P_Enviroments
+│   │   │   └── P_Enviroments
+│   │   │   └── P_Glovel Volume
+│   │   │   └── P_Grounds
+│   │   │   └── P_Key
+│   │   │   └── P_Lever
+│   │   │   └── P_Player
+│   │   │   └── P_UI_Crosshair
+│   │   │   └── P_UI_HoldProgressBar
+│   │   │   └── P_UI_PlayerInventory
 │   ├── Materials/
 │   └── Scenes/
 │       └── TestScene.unity
