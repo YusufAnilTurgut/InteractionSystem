@@ -5,6 +5,10 @@ namespace Project.Runtime.Core
         bool CanInteract { get; }
         string PromptText { get; }
 
+                
+        bool IsHoldInteract { get; }
+        float HoldDuration { get; }
+        
         void Interact();
     }
 }

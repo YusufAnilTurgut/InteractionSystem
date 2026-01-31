@@ -115,8 +115,8 @@
                 {
                     "name": "",
                     "id": "da2d9482-97dd-48bc-8bc3-746e42683ca6",
-                    "path": "",
-                    "interactions": "",
+                    "path": "<Keyboard>/e",
+                    "interactions": "Hold",
                     "processors": "",
                     "groups": "",
                     "action": "Interact",

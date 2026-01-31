@@ -16,6 +16,10 @@ namespace Project.Runtime.Player
 
         public event Action<IInteractable> OnTargetChanged;
 
+        public event Action<float> OnHoldProgressChanged;
+        
+
+
         #endregion
 
         #region Fields
@@ -33,8 +37,12 @@ namespace Project.Runtime.Player
 
         private IInteractable m_CurrentTarget;
         private bool m_DebugDraw = true;
-        #endregion
 
+        private bool m_IsHolding;
+        private float m_HoldElapsed;
+        private Project.Runtime.Core.HoldInteractableBase m_CurrentHoldTarget;
+        #endregion
+    
         #region Unity Methods
 
         private void Awake()
@@ -57,18 +65,26 @@ namespace Project.Runtime.Player
         private void OnEnable()
         {
             m_InteractAction.action.Enable();
+            m_InteractAction.action.started += OnInteractStarted;
             m_InteractAction.action.performed += OnInteractPerformed;
+            m_InteractAction.action.canceled += OnInteractCanceled;
+
         }
 
         private void Update()
         {
             UpdateTarget();
+            UpdateHold();
+
         }
 
         private void OnDisable()
         {
+            m_InteractAction.action.started -= OnInteractStarted;
             m_InteractAction.action.performed -= OnInteractPerformed;
+            m_InteractAction.action.canceled -= OnInteractCanceled;
             m_InteractAction.action.Disable();
+
         }
 
         #endregion
@@ -86,7 +102,11 @@ namespace Project.Runtime.Player
             }
 
             m_CurrentTarget = newTarget;
+            m_IsHolding = false;
+            m_HoldElapsed = 0f;
+            OnHoldProgressChanged?.Invoke(0f);
             OnTargetChanged?.Invoke(m_CurrentTarget);
+
         }
 
         private IInteractable FindBestTarget()
@@ -141,23 +161,107 @@ namespace Project.Runtime.Player
             return best;
         }
 
-        private void OnInteractPerformed(InputAction.CallbackContext context)
+        private void OnInteractStarted(InputAction.CallbackContext context)
         {
-            Debug.Log("Interact Key performed");
+            Debug.Log("Interact Started");
             if (m_CurrentTarget == null)
-            {   
-                Debug.Log("No current target to interact with.");
+            {
+                return;
+            }
+
+            if (!m_CurrentTarget.IsHoldInteract)
+            {
                 return;
             }
 
             if (!m_CurrentTarget.CanInteract)
             {
-                Debug.Log("Current target cannot be interacted with.");
+                return;
+            }
+
+            m_IsHolding = true;
+            m_HoldElapsed = 0f;
+            OnHoldProgressChanged?.Invoke(0f);
+
+        }
+
+        private void OnInteractCanceled(InputAction.CallbackContext context)
+        {
+            Debug.Log("Interact Canceled");
+            m_IsHolding = false;
+            m_HoldElapsed = 0f;
+            OnHoldProgressChanged?.Invoke(0f);
+
+        }
+
+        private void OnInteractPerformed(InputAction.CallbackContext context)
+        {
+            Debug.Log("Interact Performed");
+            if (m_CurrentTarget == null)
+            {
+                return;
+            }
+
+            if (m_CurrentTarget.IsHoldInteract)
+            {
+                return;
+            }
+
+            if (!m_CurrentTarget.CanInteract)
+            {
                 return;
             }
 
             m_CurrentTarget.Interact();
         }
+
+        private void UpdateHold()
+        {
+            if (!m_IsHolding)
+            {
+                return;
+            }
+
+            if (m_CurrentTarget == null)
+            {
+                m_IsHolding = false;
+                return;
+            }
+
+            if (!m_CurrentTarget.IsHoldInteract)
+            {
+                m_IsHolding = false;
+                m_HoldElapsed = 0f;
+                return;
+            }
+
+            float duration = m_CurrentTarget.HoldDuration;
+            if (duration <= 0f)
+            {
+                Debug.LogError("HoldDuration must be > 0.");
+                m_IsHolding = false;
+                return;
+            }
+
+            m_HoldElapsed += Time.deltaTime;
+
+            if (m_HoldElapsed >= duration)
+            {
+                m_IsHolding = false;
+                m_HoldElapsed = 0f;
+
+                if (m_CurrentTarget.CanInteract)
+                {
+                    OnHoldProgressChanged?.Invoke(0f);
+                    m_CurrentTarget.Interact();
+                }
+            }
+
+            float progress = Mathf.Clamp01(m_HoldElapsed / duration);
+            OnHoldProgressChanged?.Invoke(progress);
+
+        }
+
 
         #endregion
     }

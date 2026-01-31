@@ -10,6 +10,9 @@ namespace Project.Runtime.Core
         [SerializeField] private string m_PromptText = "Interact";
         [SerializeField] private bool m_CanInteract = true;
 
+        public virtual bool IsHoldInteract { get; }
+        public virtual float HoldDuration { get; }
+
         #endregion
 
         #region Properties
