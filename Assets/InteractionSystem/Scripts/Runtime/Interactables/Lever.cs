@@ -6,17 +6,18 @@ using System.Collections;
 
 namespace Project.Runtime.Interactables
 {
-    public class Door : InstantInteractableBase
+    public class Lever : SwitchInteractableBase
     {
         #region Fields
 
         [Header("Instant Interaction")]
         [SerializeField] private UnityEvent m_OnInteract;
-
+    
         [SerializeField] private bool m_DisableAfterInteract = false;
 
-        [SerializeField] private Transform m_Hinge;
-        [SerializeField] private float m_OpenAngle = 90f;
+        [SerializeField] private Transform m_Fulcrum;
+
+        [SerializeField] private float m_OpenAngle = 50f;
         [SerializeField] private float m_RotateSpeed = 180f;
 
         private bool m_IsOpen;
@@ -30,26 +31,26 @@ namespace Project.Runtime.Interactables
         private void Awake()
         {
 
-            m_Hinge = transform.parent;
-            if (m_Hinge == null)
+            m_Fulcrum = transform.parent;
+            if (m_Fulcrum == null)
             {
-                Debug.LogError("Hinge reference is missing.");
+                Debug.LogError("Fulcrum reference is missing.");
                 enabled = false;
                 return;
             }
 
-            m_ClosedRotation = m_Hinge.localRotation;
-            m_OpenRotation = Quaternion.Euler(0f, m_OpenAngle, 0f);
+            m_ClosedRotation = m_Fulcrum.localRotation;
+            m_OpenRotation = Quaternion.Euler(0f, 0f, m_OpenAngle);
         }
 
-        protected override void OnInstantInteract()
+        protected override void OnSwitchInteract()
         {
             if (m_OnInteract == null)
             {
                 Debug.LogWarning($"{name}: OnInteract event is null.");
                 return;
             }
-            Debug.Log($"{name}: Instant interaction performed.");
+            Debug.Log($"{name}: Switch interaction performed.");
             m_OnInteract.Invoke();
 
             if (m_DisableAfterInteract)
@@ -57,30 +58,30 @@ namespace Project.Runtime.Interactables
                 SetCanInteract(false);
             }
         }
-
-        public void OpenDoor()
+    
+        public void SwitchLever()
         {
-            Debug.Log($"{name}: Opening door.");
-            m_IsOpen = !m_IsOpen;
+            Debug.Log($"{name}: Switching lever.");
+            m_isToggle = !m_isToggle;
             StopAllCoroutines();
-            StartCoroutine(RotateDoor());
+            StartCoroutine(RotateLever());
         }
 
-        private IEnumerator RotateDoor()
+        private IEnumerator RotateLever()
         {
-            Quaternion start = m_Hinge.localRotation;
-            Quaternion target = m_IsOpen ? m_OpenRotation : m_ClosedRotation;
+            Quaternion start = m_Fulcrum.localRotation;
+            Quaternion target = m_isToggle ? m_OpenRotation : m_ClosedRotation;
 
             float t = 0f;
 
             while (t < 1f)
             {
                 t += Time.deltaTime * (m_RotateSpeed / 90f);
-                m_Hinge.localRotation = Quaternion.Slerp(start, target, t);
+                m_Fulcrum.localRotation = Quaternion.Slerp(start, target, t);
                 yield return null;
             }
 
-            m_Hinge.localRotation = target;
+            m_Fulcrum.localRotation = target;
         }
 
         #endregion
